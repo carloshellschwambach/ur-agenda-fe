@@ -9,15 +9,15 @@
 The project follows **traditional Angular module architecture** (non-standalone components):
 
 - **`src/app/core/`** - Shared components & services (e.g., NavbarComponent)
-- **`src/app/modules/`** - Feature modules with lazy loading capability (e.g., AgendamentoModule)
-  - Each feature module has its own routing (`agendamento-routing.module.ts`)
+- **`src/app/modules/`** - Feature modules with lazy loading capability (e.g., AppointmentsModule)
+  - Each feature module has its own routing (`appointments-routing.module.ts`)
   - Declares page components internally (in `pages/` subfolder)
 
 ### Current State
 The **foundation is laid but incomplete**:
-- Module structure exists for `agendamento` feature (scheduling)
-  - `AgendamentoListComponent` - displays bookings
-  - `AgendamentoFormComponent` - creates/edits bookings
+- Module structure exists for `appointments` feature (scheduling)
+  - `AppointmentsListComponent` - displays bookings
+  - `AppointmentsFormComponent` - creates/edits bookings
 - **No data layer yet**: services, models, HTTP integration, or state management
 - App routing is empty; feature module routing needs configuration
 - Navbar exists but is not integrated
@@ -112,11 +112,11 @@ Create in `src/app/core/services/` (central location):
 @Injectable({
   providedIn: 'root'  // Tree-shakeable
 })
-export class AgendamentoService {
+export class AppointmentsService {
   constructor(private http: HttpClient) {}
   
-  getAll(): Observable<Agendamento[]> {
-    return this.http.get<Agendamento[]>('/api/agendamentos');
+  getAll(): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>('/api/appointments');
   }
 }
 ```
@@ -124,44 +124,44 @@ export class AgendamentoService {
 ### Adding Models/Interfaces
 Create in `src/app/core/models/`:
 ```typescript
-// src/app/core/models/agendamento.model.ts
-export interface Agendamento {
+// src/app/core/models/appointment.model.ts
+export interface Appointment {
   id: number;
-  dataHora: Date;
-  descricao: string;
-  status: 'pendente' | 'confirmado' | 'cancelado';
+  dateTime: Date;
+  description: string;
+  status: 'pending' | 'confirmed' | 'cancelled';
 }
 ```
 
-### Example: Implementing Agendamento Feature
-1. **Update routing** in `agendamento-routing.module.ts`:
+### Example: Implementing Appointments Feature
+1. **Update routing** in `appointments-routing.module.ts`:
    ```typescript
    const routes: Routes = [
-     { path: '', component: AgendamentoListComponent },
-     { path: 'novo', component: AgendamentoFormComponent }
+     { path: '', component: AppointmentsListComponent },
+     { path: 'new', component: AppointmentsFormComponent }
    ];
    ```
-2. **Create model** in `src/app/core/models/agendamento.model.ts`
-3. **Create service** in `src/app/core/services/agendamento.service.ts` with HTTP calls
+2. **Create model** in `src/app/core/models/appointment.model.ts`
+3. **Create service** in `src/app/core/services/appointments.service.ts` with HTTP calls
 4. **Inject service** into list/form components, use `async` pipe in templates
-5. **Add ReactiveFormsModule** to `agendamento.module.ts`
+5. **Add ReactiveFormsModule** to `appointments.module.ts`
 
 ## Integration Points & Best Practices
 
 ### HTTP/API Integration (Recommended Pattern)
 Use **HttpClientModule** with dedicated services:
 ```typescript
-// src/app/core/services/agendamento.service.ts
+// src/app/core/services/appointments.service.ts
 @Injectable({ providedIn: 'root' })
-export class AgendamentoService {
+export class AppointmentsService {
   constructor(private http: HttpClient) {}
   
-  getAll(): Observable<Agendamento[]> {
-    return this.http.get<Agendamento[]>('/api/agendamentos');
+  getAll(): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>('/api/appointments');
   }
   
-  create(data: Agendamento): Observable<Agendamento> {
-    return this.http.post<Agendamento>('/api/agendamentos', data);
+  create(data: Appointment): Observable<Appointment> {
+    return this.http.post<Appointment>('/api/appointments', data);
   }
 }
 ```
@@ -171,14 +171,14 @@ export class AgendamentoService {
 ### Forms (Recommended: ReactiveFormsModule)
 Use **reactive forms** for better control and testing:
 ```typescript
-// In agendamento.module.ts, add to imports:
-imports: [CommonModule, ReactiveFormsModule, AgendamentoRoutingModule]
+// In appointments.module.ts, add to imports:
+imports: [CommonModule, ReactiveFormsModule, AppointmentsRoutingModule]
 
 // In component:
 constructor(private fb: FormBuilder) {
   this.form = this.fb.group({
-    dataHora: ['', Validators.required],
-    descricao: ['']
+    dateTime: ['', Validators.required],
+    description: ['']
   });
 }
 ```
@@ -189,13 +189,13 @@ constructor(private fb: FormBuilder) {
 Start simple with services + RxJS Subjects:
 ```typescript
 @Injectable({ providedIn: 'root' })
-export class AgendamentoStateService {
-  private agendamentosSubject = new BehaviorSubject<Agendamento[]>([]);
-  agendamentos$ = this.agendamentosSubject.asObservable();
+export class AppointmentsStateService {
+  private appointmentsSubject = new BehaviorSubject<Appointment[]>([]);
+  appointments$ = this.appointmentsSubject.asObservable();
   
-  loadAgendamentos() {
-    this.agendamentoService.getAll().subscribe(data => 
-      this.agendamentosSubject.next(data)
+  loadAppointments() {
+    this.appointmentsService.getAll().subscribe(data => 
+      this.appointmentsSubject.next(data)
     );
   }
 }
@@ -208,7 +208,7 @@ Update routing and navbar:
 ```typescript
 // app-routing.module.ts
 const routes: Routes = [
-  { path: 'agendamentos', loadChildren: () => import('./modules/agendamento/agendamento.module').then(m => m.AgendamentoModule) }
+  { path: 'appointments', loadChildren: () => import('./modules/appointments/appointments.module').then(m => m.AppointmentsModule) }
 ];
 
 // navbar.component.ts - add RouterTestingModule for testing
@@ -227,10 +227,10 @@ navigateTo(path: string) { this.router.navigate([path]); }
 2. **Component files are linked triplets**: `.ts`, `.html`, `.scss` (and `.spec.ts` for tests)
 3. **Run tests after component creation**: `npm test` to verify spec wiring
 4. **Module imports matter**: If a component needs CommonModule, FormsModule, etc., import in the declaring module—not the component
-5. **The agendamento pages are the main feature**: Focus development here; Navbar is a shell
+5. **The appointments pages are the main feature**: Focus development here; Navbar is a shell
 6. **No API client yet**: Model data structures first; integration comes later
 
 ## References
 - Angular Docs: https://angular.dev
 - Angular CLI: https://angular.dev/tools/cli
-- Current main components: [app.module.ts](src/app/app.module.ts), [agendamento.module.ts](src/app/modules/agendamento/agendamento.module.ts)
+- Current main components: [app.module.ts](src/app/app.module.ts), [appointments.module.ts](src/app/modules/appointments/appointments.module.ts)
