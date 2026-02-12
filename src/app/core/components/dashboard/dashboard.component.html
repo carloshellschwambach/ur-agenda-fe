@@ -1,0 +1,15 @@
+<div class="dashboard-container" #dashboardContainer [class.sidebar-collapsed]="sidebarCollapsed">
+  <app-sidebar (toggleStateChange)="onSidebarToggle($event)"></app-sidebar>
+
+  <main class="main-content">
+    <div class="content-wrapper">
+      <header class="top-bar">
+        <h2 class="welcome-message" *ngIf="user">Olá, <strong>{{ user.name }}</strong>! 👋</h2>
+      </header>
+
+      <section class="content">
+        <router-outlet></router-outlet>
+      </section>
+    </div>
+  </main>
+</div>

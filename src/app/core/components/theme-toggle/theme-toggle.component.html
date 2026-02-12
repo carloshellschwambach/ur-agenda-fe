@@ -1,0 +1,28 @@
+<button class="theme-toggle" [class.dark]="currentTheme === 'dark'" (click)="toggleTheme()" [title]="currentTheme === 'light' ? 'Escurecer' : 'Iluminar'" aria-label="Toggle theme">
+  <span class="toggle-bg"></span>
+
+  <!-- SVG variant -->
+  <ng-container *ngIf="variant === 'svg'">
+    <span class="icon-sun" aria-hidden="true">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
+        <g fill="currentColor">
+          <path d="M6.76 4.84l-1.8-1.79L3.17 4.84l1.79 1.79 1.8-1.79zM1 13h3v-2H1v2zm10 8h2v-3h-2v3zm7.03-3.03l1.79 1.79 1.79-1.79-1.79-1.79-1.79 1.79zM17.24 4.84l1.79-1.79-1.79-1.79-1.79 1.79 1.79 1.79zM12 7a5 5 0 100 10 5 5 0 000-10z"/>
+        </g>
+      </svg>
+    </span>
+    <span class="icon-moon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
+        <path fill="currentColor" d="M21.75 15.5A9 9 0 1112.5 2.25 7 7 0 0021.75 15.5z"/>
+      </svg>
+    </span>
+    <span class="toggle-circle"></span>
+  </ng-container>
+
+  <!-- Emoji variant (fallback) -->
+  <ng-container *ngIf="variant === 'emoji'">
+    <span class="icon-sun">☀️</span>
+    <span class="icon-moon">🌙</span>
+    <span class="toggle-circle"></span>
+  </ng-container>
+
+</button>

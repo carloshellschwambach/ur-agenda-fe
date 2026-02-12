@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +7,13 @@ import { Component } from '@angular/core';
   standalone: false,
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'ur-agenda';
+
+  constructor(private themeService: ThemeService) {}
+
+  ngOnInit(): void {
+    // Inicializa o tema na aplicação
+    // O ThemeService já aplica automaticamente o tema ao ser injetado
+  }
 }
