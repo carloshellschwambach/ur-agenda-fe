@@ -2,9 +2,11 @@
 :root,
 [data-theme='light'] {
   /* Cores Primárias */
-  --color-primary: #111827; /* neutral primary */
+  --color-primary: #111827;
+  /* neutral primary */
   --color-primary-dark: #0b1220;
-  --color-primary-light: #6b7280; /* neutral light accent */
+  --color-primary-light: #6b7280;
+  /* neutral light accent */
 
   /* Cores Secundárias */
   --color-secondary: #9aa4af;
@@ -82,8 +84,20 @@
 }
 
 /* ===== ESTILOS GLOBAIS ===== */
-* {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Transições suaves para elementos de UI */
+a,
+button,
+input,
+textarea,
+select,
+.card,
+.header,
+.navbar {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 body,
