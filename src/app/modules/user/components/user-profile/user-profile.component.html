@@ -1,0 +1,55 @@
+<div class="profile-container fade-in">
+    <div class="profile-header">
+        <h2>Meu Perfil</h2>
+        <p>Gerencie suas informações pessoais</p>
+    </div>
+
+    <div class="profile-content">
+        <div class="avatar-section">
+            <div class="large-avatar">
+                {{ getInitials(currentUser?.name || '') }}
+            </div>
+            <div class="user-display-info">
+                <h3>{{ currentUser?.name }}</h3>
+                <span>{{ currentUser?.email }}</span>
+            </div>
+        </div>
+
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+            <div class="form-group">
+                <label for="name">Nome Completo</label>
+                <div class="input-wrapper">
+                    <input type="text" id="name" formControlName="name" placeholder="Seu nome completo"
+                        [class.error]="profileForm.get('name')?.invalid && profileForm.get('name')?.touched">
+                </div>
+                <span class="error-msg"
+                    *ngIf="profileForm.get('name')?.hasError('required') && profileForm.get('name')?.touched">
+                    Nome é obrigatório
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <div class="input-wrapper">
+                    <input type="email" id="email" formControlName="email" placeholder="seu@email.com"
+                        [class.error]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
+                </div>
+                <span class="error-msg"
+                    *ngIf="profileForm.get('email')?.hasError('required') && profileForm.get('email')?.touched">
+                    E-mail é obrigatório
+                </span>
+                <span class="error-msg"
+                    *ngIf="profileForm.get('email')?.hasError('email') && profileForm.get('email')?.touched">
+                    E-mail inválido
+                </span>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary" [disabled]="profileForm.invalid || isLoading">
+                    <span *ngIf="!isLoading">Salvar Alterações</span>
+                    <span *ngIf="isLoading">Salvando...</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

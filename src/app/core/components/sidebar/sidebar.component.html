@@ -47,7 +47,7 @@
       <span class="nav-text" *ngIf="isExpanded">Configurações</span>
     </div>
 
-    <div class="user-info">
+    <div class="user-info" (click)="navigateTo('/profile')" title="Meu Perfil">
       <div class="user-avatar">{{ user.name.charAt(0).toUpperCase() }}</div>
       <div class="user-details" *ngIf="isExpanded">
         <p class="user-name">{{ user.name }}</p>

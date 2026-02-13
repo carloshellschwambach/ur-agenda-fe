@@ -23,7 +23,7 @@ export class SidebarComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private themeService: ThemeService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.user = this.authService.getUser();
@@ -40,6 +40,11 @@ export class SidebarComponent implements OnInit {
   }
 
   navigateTo(path: string): void {
-    this.router.navigate([path]);
+    console.log('Navigating to:', path);
+    this.router.navigate([path]).then(success => {
+      if (!success) {
+        console.error('Navigation failed to:', path);
+      }
+    });
   }
 }
