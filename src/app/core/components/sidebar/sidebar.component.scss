@@ -20,10 +20,66 @@
     }
 
     .nav-text,
-    .user-info,
-    .logout-btn span,
-    app-theme-toggle {
+    .user-details {
       display: none;
+    }
+
+    // Ocultar apenas o texto do botão sair, manter o ícone
+    .logout-btn span:not(.logout-icon) {
+      display: none;
+    }
+
+    // Centralizar Header (Toggle)
+    .sidebar-header {
+      justify-content: center;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    // Centralizar Ícones de Navegação
+    .nav-item {
+      justify-content: center;
+      padding-left: 0;
+      padding-right: 0;
+
+      .nav-icon {
+        margin: 0;
+      }
+    }
+
+    .sidebar-footer {
+      align-items: center;
+      padding: 1rem 0;
+
+      .settings-item,
+      .user-info,
+      .logout-btn,
+      app-theme-toggle {
+        display: flex;
+        justify-content: center;
+        padding: 0.75rem 0;
+        width: 100%; // Ocupar largura para centralizar
+        gap: 0; // Remover gap quando só tem ícone
+      }
+
+      .settings-item {
+        .nav-icon {
+          margin: 0;
+        }
+      }
+    }
+
+    // Aumentar ícones no modo recolhido para melhor visualização
+    .nav-icon svg,
+    .menu-icon svg,
+    .logout-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .nav-icon,
+    .logout-icon {
+      min-width: 24px; // Ajustar container para o novo tamanho
     }
   }
 }
@@ -147,13 +203,54 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+
+  .settings-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--color-text);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-icon {
+      min-width: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-icon svg {
+      width: 20px;
+      height: 20px;
+      display: block;
+      color: var(--color-text-secondary);
+      fill: currentColor;
+      transition: color 0.15s ease;
+    }
+
+    &:hover .nav-icon svg {
+      color: var(--color-text);
+    }
+
+    .nav-text {
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+  }
 }
 
 .user-info {
-  display: flex;
+  display: flex !important; // Forçar display flex caso algo esteja escondendo
   gap: 0.75rem;
   padding: 0.75rem;
-  background: rgba(255, 255, 255, 0.04);
+  background: transparent;
   border-radius: 8px;
 }
 
@@ -161,13 +258,15 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.25); // Mais visível para modo claro
+  border: 1px solid rgba(255, 255, 255, 0.2); // Borda para definição
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
   font-size: 0.95rem;
   flex-shrink: 0;
+  color: var(--color-text);
 }
 
 .user-details {
@@ -198,8 +297,8 @@
 .logout-btn {
   width: 100%;
   padding: 0.75rem;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+  border: none;
   color: var(--color-text);
   border-radius: 4px;
   cursor: pointer;
@@ -212,10 +311,25 @@
 
   &:hover {
     background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.12);
   }
-}
 
-.logout-icon {
-  font-size: 1.1rem;
+  .logout-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+  }
+
+  .logout-icon svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+    fill: currentColor;
+    color: var(--color-text-secondary);
+    transition: color 0.15s ease;
+  }
+
+  &:hover .logout-icon svg {
+    color: var(--color-text);
+  }
 }
