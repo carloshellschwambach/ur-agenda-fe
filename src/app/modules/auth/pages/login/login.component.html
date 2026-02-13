@@ -7,31 +7,47 @@
     <h1>UrAgenda</h1>
     <p class="subtitle">Faça login para continuar</p>
 
-    <div class="alert alert-error" *ngIf="error">
-      {{ error }}
-    </div>
+    @if (error) {
+      <div class="alert alert-error">
+        {{ error }}
+      </div>
+    }
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
       <div class="form-group">
         <label for="credential">Usuário ou Email</label>
         <input id="credential" type="text" formControlName="credential" placeholder="Digite seu usuário ou email" />
-        <div class="error" *ngIf="f['credential'].touched && f['credential'].invalid">
-          <small *ngIf="f['credential'].errors?.['required']">Usuário ou email é obrigatório.</small>
-        </div>
+        @if (f['credential'].touched && f['credential'].invalid) {
+          <div class="error">
+            @if (f['credential'].errors?.['required']) {
+              <small>Usuário ou email é obrigatório.</small>
+            }
+          </div>
+        }
       </div>
 
       <div class="form-group">
         <label for="password">Senha</label>
         <input id="password" type="password" formControlName="password" />
-        <div class="error" *ngIf="f['password'].touched && f['password'].invalid">
-          <small *ngIf="f['password'].errors?.['required']">Senha é obrigatória.</small>
-          <small *ngIf="f['password'].errors?.['minlength']">Mínimo 6 caracteres.</small>
-        </div>
+        @if (f['password'].touched && f['password'].invalid) {
+          <div class="error">
+            @if (f['password'].errors?.['required']) {
+              <small>Senha é obrigatória.</small>
+            }
+            @if (f['password'].errors?.['minlength']) {
+              <small>Mínimo 6 caracteres.</small>
+            }
+          </div>
+        }
       </div>
 
       <button type="submit" class="btn" [disabled]="form.invalid || loading">
-        <span *ngIf="!loading">Entrar</span>
-        <span *ngIf="loading">Carregando...</span>
+        @if (!loading) {
+          <span>Entrar</span>
+        }
+        @if (loading) {
+          <span>Carregando...</span>
+        }
       </button>
     </form>
 

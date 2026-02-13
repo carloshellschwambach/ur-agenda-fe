@@ -4,7 +4,9 @@
   <main class="main-content">
     <div class="content-wrapper">
       <header class="top-bar">
-        <h2 class="welcome-message" *ngIf="user">Olá, <strong>{{ user.name }}</strong>! 👋</h2>
+        @if (user) {
+          <h2 class="welcome-message">Olá, <strong>{{ user.name }}</strong>! 👋</h2>
+        }
       </header>
 
       <section class="content">

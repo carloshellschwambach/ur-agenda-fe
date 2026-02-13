@@ -2,7 +2,7 @@
   <span class="toggle-bg"></span>
 
   <!-- SVG variant -->
-  <ng-container *ngIf="variant === 'svg'">
+  @if (variant === 'svg') {
     <span class="icon-sun" aria-hidden="true">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
         <g fill="currentColor">
@@ -16,13 +16,13 @@
       </svg>
     </span>
     <span class="toggle-circle"></span>
-  </ng-container>
+  }
 
   <!-- Emoji variant (fallback) -->
-  <ng-container *ngIf="variant === 'emoji'">
+  @if (variant === 'emoji') {
     <span class="icon-sun">☀️</span>
     <span class="icon-moon">🌙</span>
     <span class="toggle-circle"></span>
-  </ng-container>
+  }
 
 </button>

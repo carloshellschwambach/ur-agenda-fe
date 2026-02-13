@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ThemeService } from '../../services/theme.service';
@@ -9,7 +9,7 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule, ThemeToggleComponent],
+  imports: [RouterModule, ThemeToggleComponent],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
