@@ -40,6 +40,10 @@
   --shadow-md: 0 8px 24px rgba(16, 24, 40, 0.06);
   --shadow-lg: 0 16px 48px rgba(16, 24, 40, 0.08);
   --shadow-focus: 0 0 0 3px rgba(102, 116, 141, 0.12);
+
+  /* Sidebar Specific */
+  --color-sidebar-hover: rgba(0, 0, 0, 0.05);
+  --color-sidebar-active: rgba(0, 0, 0, 0.1);
 }
 
 /* ===== TEMA ESCURO (Dark Theme) ===== */
@@ -81,6 +85,10 @@
   --shadow-md: 0 8px 24px rgba(2, 6, 23, 0.6);
   --shadow-lg: 0 16px 48px rgba(2, 6, 23, 0.7);
   --shadow-focus: 0 0 0 3px rgba(59, 130, 246, 0.06);
+
+  /* Sidebar Specific */
+  --color-sidebar-hover: rgba(255, 255, 255, 0.06);
+  --color-sidebar-active: rgba(255, 255, 255, 0.1);
 }
 
 /* ===== ESTILOS GLOBAIS ===== */

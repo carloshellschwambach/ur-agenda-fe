@@ -36,7 +36,7 @@
       height: 2.5rem;
 
       &:hover {
-        background: rgba(128, 128, 128, 0.1);
+        background: var(--color-sidebar-hover);
         opacity: 1;
         transform: scale(1.05);
       }
@@ -88,7 +88,7 @@
       text-decoration: none; // In case it's an anchor
 
       &:hover {
-        background: rgba(255, 255, 255, 0.06);
+        background: var(--color-sidebar-hover);
 
         .nav-icon svg {
           color: var(--color-text);
@@ -97,7 +97,7 @@
       }
 
       &.active {
-        background: rgba(255, 255, 255, 0.08);
+        background: var(--color-sidebar-active);
 
         .nav-icon svg {
           color: var(--color-text);
@@ -149,7 +149,7 @@
       color: var(--color-text);
 
       &:hover {
-        background: rgba(255, 255, 255, 0.08);
+        background: var(--color-sidebar-hover);
 
         .nav-icon svg {
           color: var(--color-text);
@@ -196,7 +196,7 @@
       &:hover,
       &:focus,
       &.active {
-        background: rgba(255, 255, 255, 0.1) !important; // Stronger opacity
+        background: var(--color-sidebar-active) !important; // Stronger opacity
         outline: none;
       }
 
@@ -257,7 +257,7 @@
       gap: 0.5rem;
 
       &:hover {
-        background: rgba(255, 255, 255, 0.08);
+        background: var(--color-sidebar-hover);
 
         .logout-icon svg {
           color: var(--color-text); // Highlight icon on hover
