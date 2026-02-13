@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { LoginRequest, LoginResponse } from '../models/login.model';
 import { RegisterRequest, RegisterResponse } from '../models/register.model';
 import { User } from '../models/user.model';
@@ -14,7 +14,16 @@ export class AuthService {
   private tokenKey = 'ur-agenda-token';
   private userKey = 'ur-agenda-user';
 
-  constructor(private http: HttpClient) {}
+  private userSubject = new BehaviorSubject<User | null>(null);
+  public user$ = this.userSubject.asObservable();
+
+  constructor(private http: HttpClient) {
+    // Initialize user state from local storage
+    const storedUser = this.getUserFromStorage();
+    if (storedUser) {
+      this.userSubject.next(storedUser);
+    }
+  }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials).pipe(
@@ -46,9 +55,14 @@ export class AuthService {
 
   setUser(user: User): void {
     localStorage.setItem(this.userKey, JSON.stringify(user));
+    this.userSubject.next(user);
   }
 
   getUser(): User | null {
+    return this.userSubject.value;
+  }
+
+  private getUserFromStorage(): User | null {
     const user = localStorage.getItem(this.userKey);
     return user ? JSON.parse(user) : null;
   }
@@ -60,5 +74,6 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userKey);
+    this.userSubject.next(null);
   }
 }

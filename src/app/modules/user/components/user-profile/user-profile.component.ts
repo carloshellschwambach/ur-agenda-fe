@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../../core/services/auth.service';
 import { UserService } from '../../../../core/services/user.service';
@@ -7,9 +8,10 @@ import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-user-profile',
+    standalone: true,
     templateUrl: './user-profile.component.html',
     styleUrls: ['./user-profile.component.scss'],
-    imports: [ReactiveFormsModule]
+    imports: [CommonModule, ReactiveFormsModule]
 })
 export class UserProfileComponent implements OnInit {
     profileForm: FormGroup;
@@ -24,6 +26,7 @@ export class UserProfileComponent implements OnInit {
     ) {
         this.profileForm = this.fb.group({
             name: ['', [Validators.required, Validators.minLength(3)]],
+            username: ['', [Validators.required, Validators.minLength(3)]],
             email: ['', [Validators.required, Validators.email]],
             // Password update could be a separate section or logic, let's keep it simple for now
         });
@@ -34,6 +37,7 @@ export class UserProfileComponent implements OnInit {
         if (this.currentUser) {
             this.profileForm.patchValue({
                 name: this.currentUser.name,
+                username: this.currentUser.username,
                 email: this.currentUser.email
             });
         }
@@ -58,7 +62,9 @@ export class UserProfileComponent implements OnInit {
             error: (err) => {
                 this.isLoading = false;
                 this.toastr.error('Erro ao atualizar perfil.', 'Erro');
-                console.error(err);
+                console.error('Erro detalhado:', err);
+                console.log('Dados enviados:', updatedData);
+                console.log('ID do usuário:', this.currentUser?.id);
             }
         });
     }

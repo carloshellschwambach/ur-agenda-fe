@@ -44,8 +44,8 @@
         width: 120px;
         height: 120px;
         border-radius: 50%;
-        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-        color: #fff;
+        background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-2) 100%);
+        color: var(--color-text);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -124,7 +124,7 @@
         .btn-primary {
             padding: 0.75rem 2rem;
             background: var(--color-primary);
-            color: #fff;
+            color: var(--color-button-text);
             border: none;
             border-radius: 8px;
             font-weight: 600;

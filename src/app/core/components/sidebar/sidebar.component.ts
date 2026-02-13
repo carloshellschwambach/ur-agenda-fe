@@ -26,7 +26,9 @@ export class SidebarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.user = this.authService.getUser();
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+    });
   }
 
   toggleSidebar(): void {
