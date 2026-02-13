@@ -6,14 +6,13 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
-    declarations: [
-        UserProfileComponent
-    ],
+    declarations: [],
     imports: [
         CommonModule,
         UserRoutingModule,
         ReactiveFormsModule,
-        SharedModule
+        SharedModule,
+        UserProfileComponent
     ]
 })
 export class UserModule { }

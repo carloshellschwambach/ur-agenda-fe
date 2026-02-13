@@ -1,5 +1,5 @@
 /* ===== IMPORTAÇÕES ===== */
-@import 'styles/theme.scss';
+@use 'styles/theme.scss';
 
 /* ===== ESTILOS GLOBAIS ===== */
 * {
@@ -44,4 +44,3 @@ a {
     background: var(--color-text-secondary);
   }
 }
-
