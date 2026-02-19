@@ -1,1 +1,6 @@
-<p>appointments-list works!</p>
+<div class="calendar-container">
+    <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+</div>
+
+<app-appointment-form [visible]="modalVisible" [appointment]="selectedAppointment" [preselectedDate]="selectedDate"
+    (close)="onModalClose()" (saved)="onModalSaved()"></app-appointment-form>

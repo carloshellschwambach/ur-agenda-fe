@@ -1,0 +1,179 @@
+.calendar-container {
+    padding: 1.5rem;
+    background: var(--color-bg-secondary);
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    min-height: 600px;
+}
+
+::ng-deep {
+    .fc {
+        // Use a darker shade for borders to improve visibility (mix border + text-secondary)
+        // Safest bet for "darker":
+        --fc-border-color: color-mix(in srgb, var(--color-border), var(--color-text) 20%);
+        --fc-page-bg-color: transparent;
+        --fc-neutral-bg-color: var(--color-bg-tertiary);
+        --fc-neutral-text-color: var(--color-text-secondary);
+        --fc-today-bg-color: rgba(var(--color-primary-rgb), 0.15);
+
+        font-family: inherit;
+        color: var(--color-text);
+    }
+
+    // Header Toolbar Buttons
+    .fc-button-primary {
+        background-color: transparent;
+        border: 1px solid var(--color-border);
+        color: var(--color-text);
+        text-transform: capitalize;
+        transition: all 0.2s;
+
+        &:hover {
+            background-color: var(--color-bg-tertiary);
+            border-color: var(--color-text-secondary);
+        }
+
+        &:not(:disabled).fc-button-active,
+        &:not(:disabled):active {
+            background-color: var(--color-primary);
+            border-color: var(--color-primary);
+            color: white;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+        }
+    }
+
+    // Events
+    .fc-event {
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        padding: 2px 4px;
+        font-size: 0.85rem;
+    }
+
+    .fc-daygrid-event {
+        background-color: var(--color-accent);
+        color: white;
+
+        &:hover {
+            background-color: var(--color-accent-2);
+        }
+    }
+
+    .fc-timegrid-event {
+        background-color: var(--color-accent);
+        border-color: var(--color-accent);
+    }
+
+    // Day Headers
+    .fc-col-header-cell-cushion {
+        color: var(--color-text);
+        font-weight: 600;
+        padding: 1rem 0;
+        text-decoration: none;
+    }
+
+    // --- Custom Day Cell Content ---
+
+    // Force the Top container to be a block so our width:100% child works
+    .fc-daygrid-day-top {
+        display: block !important;
+        width: 100% !important;
+        flex-direction: unset !important;
+    }
+
+    .day-cell-content {
+        display: grid;
+        grid-template-columns: 1fr auto; // Left space (empty) | Number (Right)
+        grid-template-rows: auto auto; // Number Row | Label Row
+        width: 100%;
+        padding: 4px;
+    }
+
+    .day-number {
+        grid-column: 2; // Place in second column (Right)
+        grid-row: 1; // Top row
+        justify-self: end;
+
+        color: var(--color-text-secondary);
+        font-size: 0.9rem;
+        font-weight: 500;
+        line-height: 1;
+    }
+
+    .new-appointment-label {
+        grid-column: 1 / -1; // Span full width (Left to Right)
+        grid-row: 2; // Bottom row
+        justify-self: start; // Align content specifically to Start (Left)
+
+        color: var(--color-text);
+        font-size: 0.75rem;
+        font-weight: 500;
+        white-space: nowrap;
+        width: 100%;
+
+        // Force Left Alignment
+        text-align: left !important;
+
+        // Button-like styling
+        margin-top: 4px;
+        padding: 4px 8px;
+        border-radius: 4px;
+
+        // Pre-reserve space for border to prevent layout shift
+        border: 1px solid transparent;
+
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
+
+        cursor: pointer; // Show pointer
+        pointer-events: auto; // Enable interaction
+
+        // Hover State for the BUTTON itself
+        &:hover {
+            // Adaptive strong contrast: mix text color (20%) with transparent (80%)
+            background-color: color-mix(in srgb, var(--color-text), transparent 80%);
+
+            // Add a border for extra definition
+            border-color: color-mix(in srgb, var(--color-text), transparent 90%);
+
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+    }
+
+    // Show label on hover of the CELL FRAME (Visibility only)
+    .fc-daygrid-day-frame:hover {
+        .new-appointment-label {
+            opacity: 1;
+        }
+    }
+
+    // Ensure label is bright even on 'other' month days (which are usually dimmed)
+    .fc-day-other {
+
+        // RESET default opacity on the top container so children can be bright
+        .fc-daygrid-day-top {
+            opacity: 1 !important;
+        }
+
+        // Apply the dimming effect ONLY to the day number
+        .day-number {
+            opacity: 0.4;
+        }
+
+        .new-appointment-label {
+            // Use adaptive text color (Dark in Light Mode, White in Dark Mode)
+            // Matches the "current month" button color exactly.
+            color: var(--color-text) !important;
+            filter: none;
+            opacity: 0;
+        }
+
+        &:hover .new-appointment-label {
+            opacity: 1 !important; // Force full visibility of the button (background handled by direct hover)
+        }
+    }
+}

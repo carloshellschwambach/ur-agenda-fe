@@ -1,0 +1,92 @@
+<div class="overlay" *ngIf="visible" (click)="onCancel()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+        <header>
+            <h3>{{ appointment ? 'Editar Agendamento' : 'Novo Agendamento' }}</h3>
+            <button class="close-btn" (click)="onCancel()">&times;</button>
+        </header>
+
+        <form [formGroup]="form" (ngSubmit)="onSave()">
+            <div class="form-grid">
+                <!-- Usuário / Cliente -->
+                <div class="form-group full-width">
+                    <label for="userId">Cliente</label>
+                    <select id="userId" formControlName="userId">
+                        <option [ngValue]="null" disabled>Selecione um cliente</option>
+                        <option *ngFor="let client of customers" [value]="client.id">
+                            {{ client.name }} ({{ client.email }})
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Negócio / Unidade -->
+                <div class="form-group full-width">
+                    <label for="businessId">Unidade / Negócio</label>
+                    <select id="businessId" formControlName="businessId">
+                        <option [ngValue]="null" disabled>Selecione a unidade</option>
+                        <option *ngFor="let business of businesses" [value]="business.id">
+                            {{ business.name }}
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Profissional -->
+                <div class="form-group">
+                    <label for="professionalId">Profissional</label>
+                    <select id="professionalId" formControlName="professionalId">
+                        <option [ngValue]="null" disabled>Selecione</option>
+                        <option *ngFor="let prof of professionals" [value]="prof.id">
+                            {{ prof.name }}
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Serviço -->
+                <div class="form-group">
+                    <label for="serviceId">Serviço</label>
+                    <select id="serviceId" formControlName="serviceId">
+                        <option [ngValue]="null" disabled>Selecione</option>
+                        <option *ngFor="let service of services" [value]="service.id">
+                            {{ service.name }} - {{ service.price | currency:'BRL' }}
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Data -->
+                <div class="form-group">
+                    <label for="date">Data</label>
+                    <input type="date" id="date" formControlName="date">
+                </div>
+
+                <!-- Status -->
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status" formControlName="status">
+                        <option value="PENDING">Pendente</option>
+                        <option value="CONFIRMED">Confirmado</option>
+                        <option value="CANCELED">Cancelado</option>
+                        <option value="COMPLETED">Concluído</option>
+                    </select>
+                </div>
+
+                <!-- Horário Início -->
+                <div class="form-group">
+                    <label for="startTime">Início</label>
+                    <input type="time" id="startTime" formControlName="startTime">
+                </div>
+
+                <!-- Horário Fim -->
+                <div class="form-group">
+                    <label for="endTime">Fim</label>
+                    <input type="time" id="endTime" formControlName="endTime">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn-cancel" (click)="onCancel()">Cancelar</button>
+                <button type="submit" class="btn-save" [disabled]="form.invalid || saving">
+                    {{ saving ? 'Salvando...' : 'Salvar' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

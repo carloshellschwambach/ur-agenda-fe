@@ -3,6 +3,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ThemeService } from '../../services/theme.service';
+import { SidebarService } from '../../services/sidebar.service';
 import { User } from '../../models/user.model';
 import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
 
@@ -22,7 +23,8 @@ export class SidebarComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private sidebarService: SidebarService
   ) { }
 
   ngOnInit(): void {
@@ -33,6 +35,7 @@ export class SidebarComponent implements OnInit {
 
   toggleSidebar(): void {
     this.isExpanded = !this.isExpanded;
+    this.sidebarService.setExpanded(this.isExpanded);
     this.toggleStateChange.emit(this.isExpanded === false);
   }
 
