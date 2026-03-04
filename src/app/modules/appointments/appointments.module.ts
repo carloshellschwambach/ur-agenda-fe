@@ -18,7 +18,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     CommonModule,
     AppointmentsRoutingModule,
     FullCalendarModule,
-    AppointmentFormComponent // Import standalone component here
+    AppointmentFormComponent
   ]
 })
 export class AppointmentsModule { }

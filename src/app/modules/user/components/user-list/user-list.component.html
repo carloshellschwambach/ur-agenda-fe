@@ -1,0 +1,96 @@
+<div class="user-list-container">
+    <div class="card">
+        <div class="card-header">
+            <div class="header-left">
+                <h2>Usuários</h2>
+                <div class="search-wrapper">
+                    <span class="search-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </span>
+                    <input type="text" placeholder="Pesquisar" [(ngModel)]="searchTerm">
+                </div>
+            </div>
+            <button class="btn-add" (click)="openNewUserModal()">Novo Usuário</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="actions-header">Ações</th>
+                        <th (click)="onSort('name')" class="sortable">
+                            Nome @if(sortField === 'name') { <span>{{ sortDirection === 'asc' ? '↑' : '↓' }}</span> }
+                        </th>
+                        <th (click)="onSort('username')" class="sortable">
+                            Usuário @if(sortField === 'username') { <span>{{ sortDirection === 'asc' ? '↑' : '↓'
+                                }}</span> }
+                        </th>
+                        <th (click)="onSort('email')" class="sortable">
+                            Email @if(sortField === 'email') { <span>{{ sortDirection === 'asc' ? '↑' : '↓' }}</span> }
+                        </th>
+                        <th (click)="onSort('roles')" class="sortable">
+                            Cargo @if(sortField === 'roles') { <span>{{ sortDirection === 'asc' ? '↑' : '↓' }}</span> }
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (user of filteredUsers; track user.id) {
+                    <tr>
+                        <td class="actions">
+                            <button class="action-btn delete" (click)="deleteUser(user.id)"
+                                [disabled]="!canDelete(user)" title="Excluir">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path
+                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                    </path>
+                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                </svg>
+                            </button>
+                            <button class="action-btn edit" (click)="editUser(user.id)" [disabled]="!canEdit(user)"
+                                title="Editar">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                            </button>
+                        </td>
+                        <td>
+                            <div class="user-info">
+                                <span class="name">{{ user.name }}</span>
+                            </div>
+                        </td>
+                        <td class="username">{{ user.username }}</td>
+                        <td class="email">{{ user.email }}</td>
+                        <td>
+                            @for (role of user.roles; track role) {
+                            <span class="role-text">{{ getRoleTranslation(role) }}</span>
+                            }
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="5" class="empty-state">Nenhum usuário encontrado.</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination">
+            <button class="page-btn" (click)="prevPage()" [disabled]="page === 0">Anterior</button>
+            <span class="page-info">Página {{ page + 1 }} de {{ totalPages }}</span>
+            <button class="page-btn" (click)="nextPage()" [disabled]="page >= totalPages - 1">Próxima</button>
+        </div>
+    </div>
+
+    <app-user-form [visible]="showModal" [user]="selectedUser" [isDeleteMode]="isDeleteMode" (close)="onModalClose()"
+        (saved)="onModalSaved()">
+    </app-user-form>
+</div>

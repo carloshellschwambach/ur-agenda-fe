@@ -19,4 +19,20 @@ export class UserService {
     getProfile(id: string): Observable<User> {
         return this.http.get<User>(`${this.apiUrl}/${id}`);
     }
+
+    getAll(page: number = 0, size: number = 10, sort: string = 'name,asc'): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}?page=${page}&size=${size}&sort=${sort}`);
+    }
+
+    create(user: any): Observable<User> {
+        return this.http.post<User>(`${this.apiUrl}/register`, user);
+    }
+
+    update(id: string, user: any): Observable<User> {
+        return this.http.put<User>(`${this.apiUrl}/${id}`, user);
+    }
+
+    delete(id: string): Observable<void> {
+        return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    }
 }

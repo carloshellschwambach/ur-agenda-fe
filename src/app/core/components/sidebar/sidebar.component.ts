@@ -17,6 +17,7 @@ import { ThemeToggleComponent } from '../theme-toggle/theme-toggle.component';
 export class SidebarComponent implements OnInit {
   isExpanded = true;
   user: User | null = null;
+  canManageUsers = false;
 
   @Output() toggleStateChange = new EventEmitter<boolean>();
 
@@ -29,7 +30,13 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
+      console.log('Sidebar User:', user);
       this.user = user;
+      this.canManageUsers = this.authService.hasAnyRole(['ADMIN', 'OWNER']);
+      console.log('Can Manage Users:', this.canManageUsers);
+      if (user) {
+        console.log('User Roles:', user.roles);
+      }
     });
   }
 

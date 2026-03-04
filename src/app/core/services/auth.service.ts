@@ -34,7 +34,8 @@ export class AuthService {
             id: response.id,
             name: response.name,
             username: response.username,
-            email: response.email
+            email: response.email,
+            roles: response.roles
           });
         }
       })
@@ -75,5 +76,15 @@ export class AuthService {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userKey);
     this.userSubject.next(null);
+  }
+
+  hasRole(role: string): boolean {
+    const user = this.getUser();
+    return user?.roles?.includes(role) ?? false;
+  }
+
+  hasAnyRole(roles: string[]): boolean {
+    const user = this.getUser();
+    return user?.roles?.some(r => roles.includes(r)) ?? false;
   }
 }

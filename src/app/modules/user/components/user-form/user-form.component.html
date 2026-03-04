@@ -1,0 +1,94 @@
+<div class="overlay" *ngIf="visible" (click)="onCancel()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+        <header>
+            <h3>{{ isDeleteMode ? 'Excluir Usuário' : (isEditMode ? 'Editar Usuário' : 'Novo Usuário') }}</h3>
+            <button class="close-btn" (click)="onCancel()">&times;</button>
+        </header>
+
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <div class="form-body">
+                @if (isDeleteMode) {
+                <div class="alert alert-danger"
+                    style="color: var(--color-error); margin-bottom: 1rem; padding: 0.75rem; background: var(--color-error-bg); border-radius: 4px; border: 1px solid var(--color-error-border);">
+                    Tem certeza que deseja excluir este usuário permanentemente?
+                </div>
+                }
+
+                <div class="form-group">
+                    <label for="name">Nome</label>
+                    <input type="text" id="name" formControlName="name" class="form-control"
+                        [class.is-invalid]="userForm.get('name')?.invalid && userForm.get('name')?.touched">
+                    <div class="invalid-feedback"
+                        *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched">
+                        Nome é obrigatório
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Usuário</label>
+                    <input type="text" id="username" formControlName="username" class="form-control"
+                        [class.is-invalid]="userForm.get('username')?.invalid && userForm.get('username')?.touched">
+                    <div class="invalid-feedback"
+                        *ngIf="userForm.get('username')?.invalid && userForm.get('username')?.touched">
+                        Usuário é obrigatório
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" formControlName="email" class="form-control"
+                        [class.is-invalid]="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+                    <div class="invalid-feedback"
+                        *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+                        Email válido é obrigatório
+                    </div>
+                </div>
+
+                @if (!isEditMode && !isDeleteMode) {
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" formControlName="password" class="form-control"
+                        [class.is-invalid]="userForm.get('password')?.invalid && userForm.get('password')?.touched">
+                    <div class="invalid-feedback"
+                        *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched">
+                        Senha é obrigatória (mínimo 8 caracteres)
+                    </div>
+                </div>
+                }
+
+                <div class="form-group">
+                    <label>Permissões</label>
+                    <div class="roles-container">
+                        @for (role of availableRoles; track role.value) {
+                        @if (isRoleVisible(role.value)) {
+                        <div class="form-check">
+                            <input type="checkbox" [value]="role.value" (change)="onRoleChange($event)"
+                                [checked]="isRoleSelected(role.value)" [id]="'role-' + role.value"
+                                [disabled]="isDeleteMode || !canToggleRole(role.value)">
+                            <label [for]="'role-' + role.value">{{ role.name }}</label>
+                        </div>
+                        }
+                        }
+                    </div>
+                    <div class="invalid-text" *ngIf="userForm.get('roles')?.invalid && userForm.get('roles')?.touched">
+                        Selecione pelo menos uma permissão.
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn-cancel" (click)="onCancel()">Cancelar</button>
+                @if (isDeleteMode) {
+                <button type="submit" class="btn-delete" [disabled]="loading"
+                    style="background-color: var(--color-error); color: white;">
+                    {{ loading ? 'Excluindo...' : 'Excluir' }}
+                </button>
+                } @else {
+                <button type="submit" class="btn-save" [disabled]="userForm.invalid || loading">
+                    {{ loading ? 'Salvando...' : 'Salvar' }}
+                </button>
+                }
+            </div>
+        </form>
+    </div>
+</div>

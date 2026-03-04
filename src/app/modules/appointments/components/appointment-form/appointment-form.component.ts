@@ -7,6 +7,7 @@ import { ProfessionalService } from '../../../../core/services/professional.serv
 import { BusinessService } from '../../../../core/services/business.service';
 import { ServiceService } from '../../../../core/services/service.service';
 import { CustomerService } from '../../../../core/services/customer.service';
+import { AuthService } from '../../../../core/services/auth.service';
 import { finalize } from 'rxjs';
 
 @Component({
@@ -39,7 +40,8 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
         private professionalService: ProfessionalService,
         private businessService: BusinessService,
         private serviceService: ServiceService,
-        private customerService: CustomerService
+        private customerService: CustomerService,
+        private authService: AuthService
     ) {
         this.form = this.fb.group({
             id: [null],
@@ -79,7 +81,25 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
         this.professionalService.getAllProfessionals().subscribe(data => this.professionals = data?.content || []);
         this.businessService.getAllBusinesses().subscribe(data => this.businesses = data?.content || []);
         this.serviceService.getAllServices().subscribe(data => this.services = data?.content || []);
-        this.customerService.getAllCustomers().subscribe(data => this.customers = data?.content || []);
+        this.professionalService.getAllProfessionals().subscribe(data => this.professionals = data?.content || []);
+        this.businessService.getAllBusinesses().subscribe(data => this.businesses = data?.content || []);
+        this.serviceService.getAllServices().subscribe(data => this.services = data?.content || []);
+
+        if (this.authService.hasAnyRole(['ADMIN', 'OWNER'])) {
+            this.customerService.getAllCustomers().subscribe(data => this.customers = data?.content || []);
+        } else {
+            const currentUser = this.authService.getUser();
+            if (currentUser) {
+                this.customers = [currentUser];
+                // Optionally pre-select
+                if (!this.form.get('userId')?.value) {
+                    this.form.patchValue({ userId: currentUser.id });
+                }
+                // Disable the field if regular user shouldn't change it? 
+                // this.form.get('userId')?.disable(); 
+            }
+        }
+
         this.loading = false;
     }
 

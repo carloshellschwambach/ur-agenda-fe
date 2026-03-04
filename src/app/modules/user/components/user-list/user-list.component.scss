@@ -1,0 +1,307 @@
+.user-list-container {
+  padding: 2rem;
+  background-color: var(--surface-ground);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  .card {
+    background: var(--surface-card);
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    width: 100%;
+    max-width: 1200px;
+    overflow: hidden;
+    border: 1px solid var(--surface-border);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--surface-border);
+    background-color: var(--surface-card);
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+
+      h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-color);
+        margin: 0;
+      }
+    }
+
+    .search-wrapper {
+      position: relative;
+      width: 280px;
+
+      .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-color-secondary);
+        display: flex;
+        pointer-events: none;
+
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+      }
+
+      input {
+        width: 100%;
+        padding: 10px 10px 10px 40px;
+        background-color: var(--surface-ground);
+        border: 1px solid transparent;
+        border-radius: 8px;
+        color: var(--text-color);
+        font-size: 0.9rem;
+        outline: none;
+        transition: all 0.2s;
+
+        &:focus {
+          background-color: var(--surface-card);
+          border-color: var(--primary-color);
+          box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.1);
+        }
+
+        &::placeholder {
+          color: var(--text-color-secondary);
+        }
+      }
+    }
+
+    .btn-add {
+      background-color: #3b82f6;
+      color: white;
+      padding: 10px 24px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+
+      &:hover {
+        background-color: #2563eb;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead {
+      tr {
+        border-bottom: 1px solid var(--surface-border);
+      }
+
+      th {
+        text-align: left;
+        padding: 1.25rem 2rem;
+        font-weight: 600;
+        color: var(--text-color);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+
+        &.sortable {
+          cursor: pointer;
+          user-select: none;
+
+          &:hover {
+            color: var(--primary-color);
+          }
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        border-bottom: 1px solid var(--surface-border);
+        transition: background-color 0.1s;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        &:hover {
+          background-color: var(--surface-hover);
+        }
+      }
+
+      td {
+        padding: 1rem 2rem;
+        color: var(--text-color-secondary);
+        font-size: 0.95rem;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+
+    .name {
+      font-weight: 500;
+      color: var(--text-color);
+      font-size: 0.95rem;
+    }
+  }
+
+  .email {
+    color: var(--text-color-secondary);
+  }
+
+  .role-text {
+    font-weight: 500;
+    color: var(--text-color);
+    text-transform: capitalize;
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.4;
+
+    &.active {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: #059669;
+    }
+
+    &.inactive {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: #dc2626;
+    }
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    width: 1%;
+    white-space: nowrap;
+
+    .action-btn {
+      background: none;
+      border: none;
+      padding: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      color: var(--text-color-secondary);
+      transition: all 0.2s;
+      margin-right: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      &:hover:not(:disabled) {
+        background-color: var(--surface-ground);
+
+        &.edit {
+          color: #3b82f6;
+        }
+
+        /* Blue for edit */
+      }
+
+      &.delete {
+        color: #dc2626;
+        /* Bright red */
+        opacity: 1;
+
+        &:hover:not(:disabled) {
+          background-color: rgba(220, 38, 38, 0.1);
+        }
+
+        &:disabled {
+          color: #ec8282;
+          /* Desaturated/Matte Red */
+          cursor: not-allowed;
+          opacity: 1;
+          /* Ensure color takes precedence */
+        }
+      }
+
+      /* Generic disabled style for non-delete buttons */
+      &:not(.delete):disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-color-secondary);
+    font-size: 1rem;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 1.25rem 2rem;
+    gap: 16px;
+    border-top: 1px solid var(--surface-border);
+
+    .page-info {
+      color: var(--text-color-secondary);
+      font-size: 0.9rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .page-btn {
+      background: none;
+      border: none;
+      color: var(--text-color);
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s;
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      &:hover:not(:disabled) {
+        background-color: var(--surface-ground);
+        color: var(--primary-color);
+      }
+    }
+  }
+}
