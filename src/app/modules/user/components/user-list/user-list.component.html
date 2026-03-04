@@ -84,9 +84,24 @@
         </div>
 
         <div class="pagination">
-            <button class="page-btn" (click)="prevPage()" [disabled]="page === 0">Anterior</button>
-            <span class="page-info">Página {{ page + 1 }} de {{ totalPages }}</span>
-            <button class="page-btn" (click)="nextPage()" [disabled]="page >= totalPages - 1">Próxima</button>
+            <div class="page-size-selector">
+                <label for="pageSize">Itens por página:</label>
+                <select id="pageSize" [(ngModel)]="size" (change)="onPageSizeChange()">
+                    @for (pageSize of pageSizes; track pageSize) {
+                    <option [value]="pageSize">{{ pageSize }}</option>
+                    }
+                </select>
+            </div>
+
+            <div class="page-controls">
+                <button class="page-btn" (click)="prevPage()" [disabled]="page === 0">Anterior</button>
+                <span class="page-info">Página {{ page + 1 }} de {{ totalPages }}</span>
+                <button class="page-btn" (click)="nextPage()" [disabled]="page >= totalPages - 1">Próxima</button>
+            </div>
+
+            <div class="total-elements">
+                Total: {{ totalElements }} registros
+            </div>
         </div>
     </div>
 

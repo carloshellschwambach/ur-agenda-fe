@@ -21,6 +21,8 @@ export class UserListComponent implements OnInit {
     page = 0;
     size = 10;
     totalPages = 0;
+    totalElements = 0;
+    pageSizes = [10, 50, 100];
     currentUser: User | null = null;
 
     // Modal State
@@ -82,12 +84,18 @@ export class UserListComponent implements OnInit {
             next: (data) => {
                 this.users = data.content;
                 this.totalPages = data.totalPages;
+                this.totalElements = data.totalElements;
             },
             error: (err) => {
                 this.toastr.error('Erro ao carregar usuários', 'Erro');
                 console.error(err);
             }
         });
+    }
+
+    onPageSizeChange(): void {
+        this.page = 0; // Reset to first page when changing page size
+        this.loadUsers();
     }
 
     toggleColumnSelector(): void {
