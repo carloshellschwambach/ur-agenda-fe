@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
+import { roleGuard } from './core/guards/role.guard';
 import { DashboardComponent } from './core/components/dashboard/dashboard.component';
 
 const routes: Routes = [
@@ -28,7 +29,9 @@ const routes: Routes = [
       },
       {
         path: 'users',
-        loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
+        loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule),
+        canActivate: [roleGuard],
+        data: { roles: ['ADMIN', 'OWNER', 'MANAGER', 'EMPLOYEE'] }
       },
       {
         path: 'settings',
