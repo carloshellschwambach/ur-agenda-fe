@@ -32,7 +32,7 @@ export class SidebarComponent implements OnInit {
     this.authService.user$.subscribe(user => {
       console.log('Sidebar User:', user);
       this.user = user;
-      this.canManageUsers = this.authService.hasAnyRole(['ADMIN', 'OWNER']);
+      this.canManageUsers = this.authService.hasAnyRole(['ADMIN', 'OWNER', 'MANAGER', 'EMPLOYEE']);
       console.log('Can Manage Users:', this.canManageUsers);
       if (user) {
         console.log('User Roles:', user.roles);
