@@ -31,8 +31,9 @@
                         <th (click)="onSort('email')" class="sortable">
                             Email @if(sortField === 'email') { <span>{{ sortDirection === 'asc' ? '↑' : '↓' }}</span> }
                         </th>
-                        <th (click)="onSort('roles')" class="sortable">
-                            Cargo @if(sortField === 'roles') { <span>{{ sortDirection === 'asc' ? '↑' : '↓' }}</span> }
+                        <th (click)="onSort('roles.name')" class="sortable">
+                            Cargo @if(sortField === 'roles.name') { <span>{{ sortDirection === 'asc' ? '↑' : '↓'
+                                }}</span> }
                         </th>
                     </tr>
                 </thead>

@@ -35,7 +35,7 @@ export class UserListComponent implements OnInit {
         { field: 'name', header: 'Nome', visible: true },
         { field: 'username', header: 'Usuário', visible: true },
         { field: 'email', header: 'Email', visible: true },
-        { field: 'role', header: 'Cargo', visible: true }
+        { field: 'roles.name', header: 'Cargo', visible: true }
     ];
     sortField = 'name';
     sortDirection = 'asc';
