@@ -53,10 +53,31 @@ export class SidebarComponent implements OnInit {
 
   navigateTo(path: string): void {
     console.log('Navigating to:', path);
+    // Verificar se o caminho destino é o mesmo da rota atual, se sim, não faz nada
+    if (this.router.url === path || this.router.url === `${path}`) {
+      // Se já estamos no caminho, apenas verifica se expirou manualmente,
+      // pois o Angular não dispara o Router Guard de novo pra mesma rota.
+      const token = this.authService.getToken();
+      if (token && this.authService.isTokenExpired(token)) {
+        this.authService.logout();
+
+        try {
+          const toastr: any = this.router.routerState.snapshot.root;
+          // Não temos acesso fácil ao toastr aqui, mas o authService.logout
+          // já limpa a sessão. Na tentativa de reload ele joga pro login.
+        } catch (e) { }
+
+        this.router.navigate(['/auth/login']);
+      }
+      return;
+    }
+
     this.router.navigate([path]).then(success => {
       if (!success) {
-        console.error('Navigation failed to:', path);
+        console.warn('Navigation cancelled or failed for path:', path);
       }
+    }).catch(err => {
+      console.warn('Navigation error:', err);
     });
   }
 }

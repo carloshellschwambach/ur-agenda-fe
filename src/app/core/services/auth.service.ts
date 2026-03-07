@@ -69,7 +69,34 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.getToken();
+    const token = this.getToken();
+    if (!token) return false;
+    
+    return !this.isTokenExpired(token);
+  }
+
+  isTokenExpired(token: string): boolean {
+    try {
+      const decoded = this.decodeToken(token);
+      if (!decoded || !decoded.exp) return false; // If there's no exp field, assume it doesn't expire
+
+      const expirationDate = new Date(0);
+      expirationDate.setUTCSeconds(decoded.exp);
+      
+      return expirationDate.valueOf() < new Date().valueOf();
+    } catch (error) {
+      console.error('Error decoding token', error);
+      return true; // Treat invalid/unparseable tokens as expired
+    }
+  }
+
+  private decodeToken(token: string): any {
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+      throw new Error('JWT must have 3 parts');
+    }
+    const decoded = atob(parts[1].replace(/-/g, '+').replace(/_/g, '/'));
+    return JSON.parse(decoded);
   }
 
   logout(): void {

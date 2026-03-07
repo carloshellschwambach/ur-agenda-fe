@@ -18,6 +18,7 @@ const routes: Routes = [
     path: '',
     component: DashboardComponent,
     canActivate: [authGuard],
+    canActivateChild: [authGuard],
     children: [
       {
         path: 'appointments',
