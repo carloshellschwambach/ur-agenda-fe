@@ -20,6 +20,13 @@
         color: var(--color-text);
     }
 
+    // Header Toolbar Title
+    .fc-toolbar-title {
+        &::first-letter {
+            text-transform: uppercase;
+        }
+    }
+
     // Header Toolbar Buttons
     .fc-button-primary {
         background-color: transparent;
